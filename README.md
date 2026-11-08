@@ -1,1 +1,1 @@
-# xneopixel
+# neopixelctl

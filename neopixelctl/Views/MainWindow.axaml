@@ -1,0 +1,143 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:neopixelctl.ViewModels"
+        xmlns:models="using:neopixelctl.Models"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="480"
+        x:Class="neopixelctl.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="NeoPixel Settings"
+        Width="800" Height="480" MinWidth="800" MinHeight="480">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Grid RowDefinitions="Auto,*,Auto" Margin="12" RowSpacing="8">
+        <StackPanel Spacing="5">
+            <Grid ColumnDefinitions="*,*,*" RowDefinitions="*,*" ColumnSpacing="6">
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="NeoPixel Settings" FontSize="22" FontWeight="Bold"/>
+                <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding StatusMessage}" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                <Button Grid.Column="1" Content="Reload" Command="{Binding ReloadSettingsCommand}" MinWidth="100" HorizontalAlignment="Right" />
+                <Button Grid.Column="2" Content="Save settings" Command="{Binding SaveSettingsCommand}" MinWidth="120" HorizontalAlignment="Right" IsDefault="True"/>
+            </Grid>
+        <TabControl Margin="5">
+        <TabItem Header="Params">
+            <Grid ColumnDefinitions="*,*" Margin="4" RowSpacing="4">
+
+                <Border Grid.Row="0" Grid.Column="0" Padding="10" CornerRadius="8" BorderBrush="#808080" BorderThickness="1">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="LED device" FontSize="17" FontWeight="SemiBold"/>
+                        <Grid ColumnDefinitions="*,*,40" ColumnSpacing="4">
+                            <TextBlock Text="LED count" TextWrapping="NoWrap" VerticalAlignment="Center"/>
+                            <Slider Grid.Column="1" Minimum="1" Maximum="300" TickFrequency="1" IsSnapToTickEnabled="True" Height="34" Value="{Binding LedNum, Mode=TwoWay}"/>
+                            <TextBlock Grid.Column="2" Text="{Binding LedNum}" TextAlignment="Right" VerticalAlignment="Center"/>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,*,40" ColumnSpacing="4">
+                            <TextBlock Text="Lit LEDs" TextWrapping="NoWrap" VerticalAlignment="Center"/>
+                            <Slider Grid.Column="1" Minimum="1" Maximum="{Binding LedOnNumMaximum}" TickFrequency="1" IsSnapToTickEnabled="True" Height="34" Value="{Binding LedOnNum, Mode=TwoWay}"/>
+                            <TextBlock Grid.Column="2" Text="{Binding LedOnNum}" TextAlignment="Right" VerticalAlignment="Center"/>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,*,40" ColumnSpacing="4">
+                            <TextBlock Text="Start pos" TextWrapping="NoWrap" VerticalAlignment="Center"/>
+                            <Slider Grid.Column="1" Minimum="0" Maximum="{Binding StartPositionMaximum}" TickFrequency="1" IsSnapToTickEnabled="True" Height="34" Value="{Binding StartPosition, Mode=TwoWay}"/>
+                            <TextBlock Grid.Column="2" Text="{Binding StartPosition}" TextAlignment="Right" VerticalAlignment="Center"/>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,*,40" ColumnSpacing="4">
+                            <TextBlock Text="MAX brightness" TextWrapping="NoWrap" VerticalAlignment="Center"/>
+                            <Slider Grid.Column="1" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" Height="34" Value="{Binding MaxBrightness, Mode=TwoWay}"/>
+                            <TextBlock Grid.Column="2" Text="{Binding MaxBrightness}" TextAlignment="Right" VerticalAlignment="Center"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="0" Grid.Column="1" Padding="10" CornerRadius="8" BorderBrush="#808080" BorderThickness="1">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="Timing and fade" FontSize="17" FontWeight="SemiBold"/>
+                        <Grid ColumnDefinitions="*,*,40" ColumnSpacing="4">
+                            <TextBlock Text="On time" TextWrapping="NoWrap" VerticalAlignment="Center"/>
+                            <Slider Grid.Column="1" Minimum="0" Maximum="10" TickFrequency="0.1" IsSnapToTickEnabled="True" Height="34" Value="{Binding OnTime, Mode=TwoWay}"/>
+                            <TextBlock Grid.Column="2" Text="{Binding OnTime, StringFormat={}{0:F1}}" TextAlignment="Right" VerticalAlignment="Center"/>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,*,40" ColumnSpacing="4">
+                            <TextBlock Text="Off time" TextWrapping="NoWrap" VerticalAlignment="Center"/>
+                            <Slider Grid.Column="1" Minimum="0" Maximum="10" TickFrequency="0.1" IsSnapToTickEnabled="True" Height="34" Value="{Binding OffTime, Mode=TwoWay}"/>
+                            <TextBlock Grid.Column="2" Text="{Binding OffTime, StringFormat={}{0:F1}}" TextAlignment="Right" VerticalAlignment="Center"/>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,*,40" ColumnSpacing="4">
+                            <TextBlock Text="Fade in rate" TextWrapping="NoWrap" VerticalAlignment="Center"/>
+                            <Slider Grid.Column="1" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" Height="34" Value="{Binding FadeInRate, Mode=TwoWay}"/>
+                            <TextBlock Grid.Column="2" Text="{Binding FadeInRate}" TextAlignment="Right" VerticalAlignment="Center"/>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,*,40" ColumnSpacing="4">
+                            <TextBlock Text="Fade out rate" TextWrapping="NoWrap" VerticalAlignment="Center"/>
+                            <Slider Grid.Column="1" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" Height="34" Value="{Binding FadeOutRate, Mode=TwoWay}"/>
+                            <TextBlock Grid.Column="2" Text="{Binding FadeOutRate}" TextAlignment="Right" VerticalAlignment="Center"/>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,*,40" ColumnSpacing="4">
+                            <TextBlock Text="Position cycle" TextWrapping="NoWrap" VerticalAlignment="Center"/>
+                            <Slider Grid.Column="1" Minimum="0.01" Maximum="10" TickFrequency="0.01" IsSnapToTickEnabled="True" Height="34" Value="{Binding CycleSec, Mode=TwoWay}"/>
+                            <TextBlock Grid.Column="2" Text="{Binding CycleSec, StringFormat={}{0:F2}}" TextAlignment="Right" VerticalAlignment="Center"/>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,*,40" ColumnSpacing="4">
+                            <TextBlock Text="Update interval" TextWrapping="NoWrap" VerticalAlignment="Center"/>
+                            <Slider Grid.Column="1" Minimum="0.01" Maximum="10" TickFrequency="0.01" IsSnapToTickEnabled="True" Height="34" Value="{Binding TimeInterval, Mode=TwoWay}"/>
+                            <TextBlock Grid.Column="2" Text="{Binding TimeInterval, StringFormat={}{0:F2}}" TextAlignment="Right" VerticalAlignment="Center"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Patterns">
+                <Border Padding="10" CornerRadius="8" BorderBrush="#808080" BorderThickness="1">
+                    <StackPanel Spacing="6">
+                        <Grid ColumnDefinitions="*,*" RowDefinitions="*,*" ColumnSpacing="8">
+                            <TextBlock Grid.Column="0" Text="Pattern and color palette" FontSize="17" FontWeight="SemiBold"/>
+                        </Grid>
+                        <ListBox Height="{Binding PaletteViewportHeight}" ItemsSource="{Binding PatternPalettes}" SelectedItem="{Binding SelectedPalette, Mode=TwoWay}" BorderThickness="0" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:DataType="models:PatternPalette">
+                                    <Border Padding="8" Margin="3" Width="150" CornerRadius="6" BorderThickness="1" BorderBrush="#808080">
+                                        <StackPanel Spacing="6">
+                                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextWrapping="NoWrap"/>
+                                            <ItemsControl ItemsSource="{Binding Colors}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal" Spacing="3"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate x:DataType="models:PaletteColor">
+                                                        <Border Width="22" Height="22" CornerRadius="3" BorderThickness="1" BorderBrush="#66000000" Background="{Binding Brush}" ToolTip.Tip="{Binding Hex}"/>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Grid ColumnDefinitions="210,*,60" ColumnSpacing="8">
+                            <TextBlock Text="Pattern frequency" TextWrapping="NoWrap" VerticalAlignment="Center"/>
+                            <Slider Grid.Column="1" Minimum="1" Maximum="50" TickFrequency="1" IsSnapToTickEnabled="True" Height="34" Value="{Binding PatternFreq, Mode=TwoWay}"/>
+                            <TextBlock Grid.Column="2" Text="{Binding PatternFreq}" TextAlignment="Right" VerticalAlignment="Center"/>
+                        </Grid>
+                        <CheckBox Content="Move in reverse direction" IsChecked="{Binding MoveReverse, Mode=TwoWay}"/>
+                    </StackPanel>
+                </Border>        </TabItem>
+        </TabControl>
+
+
+        </StackPanel>
+
+    </Grid>
+</Window>
